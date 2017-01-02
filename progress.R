@@ -16,7 +16,8 @@ con<-data$p2p>190000
 p2p_con2<-ifelse(con, 'high data usage', p2p_con)
 p2p_con3<-factor(p2p_con2)
 
-
+p2p_con3<-factor(p2p_con3,levels = c("low data usage","medium data usage", "high data usage"))
+levels(p2p_con3)
 
 #######number of people using low/medium/high amount of P2P data######
 
@@ -35,7 +36,9 @@ cdn_con1<-factor(cdn_con)
 con4<-data$cdn>200000
 cdn_con2<-ifelse(con4, 'high data usage', cdn_con)
 cdn_con3<-factor(cdn_con2)
-cdn_con3
+
+cdn_con3<-factor(cdn_con3,levels = c("low data usage","medium data usage", "high data usage"))
+levels(cdn_con3)
 
 #######number of people using low/medium/high amount of CDN data######
 
@@ -45,23 +48,27 @@ count_of_cdn_vol
 
 barplot(count_of_cdn_vol,ylim=c(20000,200000),xlab="Data Consumption",ylab="Number of people",space = 0.5,main = "CDN Network", font.main = 4)
 
-#########Analysis of false connected users################
+#########Analysis of users not connected to back end################
+#########They are also not connected to P2P#########################
 
 count_of_users<-table(data$connected)
 count_of_users
 
-data_2<-data[(which(data$connected=="false")),]
+data_2<-data[(which(data$connected=="FALSE")),]
 data_2
 
-#########CDN data consumption of false connected Users####
+
+#########CDN data consumption of these Users ####
 
 con_false<-data_2$cdn<100000
 cdn_con_false<-ifelse(con_false, 'low data usage', 'medium data usage')
 cdn_con1<-factor(cdn_con_false)
 con_false<-data_2$cdn>200000
-cdn_con2_false<-ifelse(con_false, 'high data usage', cdn_con)
+cdn_con2_false<-ifelse(con_false, 'high data usage', cdn_con_false)
 cdn_con3_false<-factor(cdn_con2_false)
-cdn_con3_false
+
+cdn_con3_false<-factor(cdn_con3_false,levels = c("low data usage","medium data usage", "high data usage"))
+levels(cdn_con3_false)
 
 count_of_cdn_vol_false<-table(cdn_con3_false)
 count_of_cdn_vol_false
@@ -124,10 +131,11 @@ barplot(percent_cdn,names.arg=isp_names,xlab="different ISPs",ylab="Percentage u
 
 
 #############Grouping by stream###################
-streams<-table(data$stream)
+
+streams<-table(data$X.stream)
 streams
 
-bystream <- group_by(data,stream)
+bystream <- group_by(data,X.stream)
 bystream
 
 tstream <- summarise(bystream, 
