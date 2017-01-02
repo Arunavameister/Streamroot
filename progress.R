@@ -17,8 +17,6 @@ p2p_con2<-ifelse(con, 'high data usage', p2p_con)
 p2p_con3<-factor(p2p_con2)
 
 
-streams<-table(data$stream)
-streams
 
 #######number of people using low/medium/high amount of P2P data######
 
@@ -126,6 +124,8 @@ barplot(percent_cdn,names.arg=isp_names,xlab="different ISPs",ylab="Percentage u
 
 
 #############Grouping by stream###################
+streams<-table(data$stream)
+streams
 
 bystream <- group_by(data,stream)
 bystream
